@@ -353,10 +353,15 @@ func (d Device) InitiatorSelectPassiveTarget(m Modulation, initData []byte) (Tar
 
 	var pnt C.nfc_target
 
+	var initDataPtr *byte
+	if len(initData) > 0 {
+		initDataPtr = &initData[0]
+	}
+
 	n := C.nfc_initiator_select_passive_target(
 		*d.d,
 		C.nfc_modulation{C.nfc_modulation_type(m.Type), C.nfc_baud_rate(m.BaudRate)},
-		(*C.uint8_t)(&initData[0]),
+		(*C.uint8_t)(initDataPtr),
 		C.size_t(len(initData)),
 		&pnt)
 	if n != 0 {
