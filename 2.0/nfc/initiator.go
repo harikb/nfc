@@ -364,7 +364,7 @@ func (d Device) InitiatorSelectPassiveTarget(m Modulation, initData []byte) (Tar
 		(*C.uint8_t)(initDataPtr),
 		C.size_t(len(initData)),
 		&pnt)
-	if n != 0 {
+	if n <= 0 {
 		return nil, Error(n)
 	}
 
